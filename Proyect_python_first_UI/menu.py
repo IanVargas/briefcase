@@ -1,15 +1,23 @@
 import PySimpleGUI as sg
-import money_management,transactions
+import money_management,transactions,verifications
 
 def entry_point():
-    data_for_table_finance = []
-    main_menu_program(data_for_table_finance)
-
+    data_for_table_finance = transactions.Transaction.import_json_to_object()
+    check_up = verifications.verify_table_is_none(data_for_table_finance)
+    if not check_up:
+     data_for_table_finance = transactions.Transaction.object_to_list(data_for_table_finance)
+     #main_menu_program(data_for_table_finance)
+     print(data_for_table_finance)
+    else:
+       data_for_table_finance = []
+       print("vacia")
+     #main_menu_program(data_for_table_finance)
+"""
 def main_menu_program(data_for_table_finance):
+    
     headers = ["Title", "Amount","Category"]
 
-    data_for_table_finance = transactions.Transaction.object_to_list(data_for_table_finance)
-   
+    #data_for_table_finance = transactions.Transaction.object_to_list(data_for_table_finance)
     layout = [ [sg.Table(data_for_table_finance, headers, expand_x=True,expand_y=True,)],
                [sg.Button("add"),sg.Button("New Category")] ]
     
@@ -31,4 +39,6 @@ def main_menu_program(data_for_table_finance):
 
     window.close()
 
+"""
 
+entry_point()
