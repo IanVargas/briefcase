@@ -1,4 +1,5 @@
 import json,verifications
+import PySimpleGUI as sg
 
 class Transaction():
  amount_of_the_transaction = float
@@ -54,24 +55,54 @@ class Transaction():
    print("There's no file with that name")
     
  
-#used for testing
-"""
-def read_pokemon_json_file () :  
- with open ("user_transactions.json", 'r') as file: 
-  new_data_pokemon = json.load(file)
-  return new_data_pokemon
+def create_new_category():
+ layout = [[sg.Text("Insert the name of the category"), sg.Input("Type the name of your category", key = "name_of_the_category")],
+        [sg.Button("Agregar")],
+    ]
+ window = sg.Window("New category", layout)
 
-"""
-#Used for testing: 
-#new_money_amount_on_acount_list = Transaction.import_json_to_object()
-#new_money_amount_on_acount_list = Transaction.object_to_list(new_money_amount_on_acount_list)
+ while True:
+        event, values = window.read()
+        if event == sg.WIN_CLOSED:
+            break
+        elif event == "Agregar":
+            window.close()
+            return [values["name_of_the_category"]]
+
+ window.close()
 
 
-"""
-list_test = []
-new_money_amount_on_acount_list = Transaction("100","food","deposit")
-list_test.append(new_money_amount_on_acount_list)
-convert = Transaction.export_object_to_json(list_test)
-"""
-#print(new_money_amount_on_acount_list)
+def list_of_categories_initialize(data_for_table_with_the_categories):
+   if data_for_table_with_the_categories != [] :    
+     for i in range (0, len(data_for_table_with_the_categories)):
+        lista_categories_to_return = data_for_table_with_the_categories[i].category_of_the_transaction
+     return lista_categories_to_return
 
+
+def window_request_user_transaction_information(list_of_categories):
+  names = list_of_categories 
+  lst = sg.Combo(names,key='-COMBO-')
+  layout = [[lst],
+        [sg.Button("Aceptar")],
+    ]
+
+    # Crear la ventana
+  window = sg.Window("New employee", layout)
+
+  while True:
+        event, values = window.read()
+        if event == sg.WIN_CLOSED:
+            break
+        elif event == "Aceptar":
+            window.close()
+            return [values["first_name"], values["role"]]
+
+  window.close()
+
+def add_money_to_account (data_for_table_finance):
+ money_to_be_added_on_account = verifications.money_to_be_added_input()
+ category_of_the_transaction = input("category")
+ transaction_type = "Deposit"
+ new_transaction_made_on_account = Transaction(money_to_be_added_on_account,category_of_the_transaction,transaction_type)
+ data_for_table_finance.append(new_transaction_made_on_account)
+ return data_for_table_finance
