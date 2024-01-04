@@ -1,6 +1,8 @@
 import json,verifications
 import PySimpleGUI as sg
 import messages
+
+
 class Transaction():
  amount_of_the_transaction = float
  category_of_the_transaction =str
@@ -59,9 +61,8 @@ class Transaction():
   except IOError:
    print("There's no file with that name")
     
- 
 def create_new_category():
- layout = [[sg.Text("Insert the name of the category"), sg.Input("Type the name of your category", key = "name_of_the_category")],
+ layout = [[sg.Text("Insert the name of the category"), sg.Input("", key = "name_of_the_category")],
         [sg.Button("Agregar")],
     ]
  window = sg.Window("New category", layout)
@@ -76,13 +77,11 @@ def create_new_category():
 
  window.close()
 
-
 def list_of_categories_initialize(data_for_table_with_the_categories):
    if data_for_table_with_the_categories != [] :    
      for i in range (0, len(data_for_table_with_the_categories)):
         lista_categories_to_return = data_for_table_with_the_categories[i].category_of_the_transaction
      return lista_categories_to_return
-
 
 def window_request_user_transaction_information(list_of_categories):
   sg.theme("DarkBlue15")
@@ -128,8 +127,3 @@ def add_money_to_account (amount_of_the_transaction,category_of_the_transaction,
  money_to_be_added_on_account = amount_of_the_transaction
  new_transaction_made_on_account = Transaction(money_to_be_added_on_account,category_of_the_transaction,type_of_the_transaction)
  return new_transaction_made_on_account
-
-
-#list=["atun","Carne"]
-
-#window_request_user_transaction_information(list)
