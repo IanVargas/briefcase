@@ -4,10 +4,8 @@ import menu
 
 
 def open_new_window():
-    # Declarar los elementos
     layout = [[sg.Image('Proyect_python_first_UI/images/logo.png',size = (800,500))],[sg.Button("Start")] ]
 
-    # Crear la ventana
     window = sg.Window("Your finance!", layout)
 
     while True:

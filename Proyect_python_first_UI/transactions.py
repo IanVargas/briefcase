@@ -54,19 +54,18 @@ class Transaction():
   list_of_obejcts_from_json = []
   try: 
    with open ('user_transactions.json','r') as file:
-       list_of_obejcts_from_json = json.load(file)
-   if list_of_obejcts_from_json != [] :     
-    list_of_obejcts_from_json = Transaction.json_to_object(list_of_obejcts_from_json)        
-    return list_of_obejcts_from_json
+       list_of_obejcts_from_json = json.load(file)    
+   list_of_obejcts_from_json = Transaction.json_to_object(list_of_obejcts_from_json)        
+   return list_of_obejcts_from_json
   except IOError:
    print("There's no file with that name")
+   return []
     
 def create_new_category():
  layout = [[sg.Text("Insert the name of the category"), sg.Input("", key = "name_of_the_category")],
         [sg.Button("Agregar")],
     ]
  window = sg.Window("New category", layout)
-
  while True:
         event, values = window.read()
         if event == sg.WIN_CLOSED:
@@ -78,9 +77,10 @@ def create_new_category():
  window.close()
 
 def list_of_categories_initialize(data_for_table_with_the_categories):
-   if data_for_table_with_the_categories != [] :    
+ lista_categories_to_return = []
+ if data_for_table_with_the_categories != [] :    
      for i in range (0, len(data_for_table_with_the_categories)):
-        lista_categories_to_return = data_for_table_with_the_categories[i].category_of_the_transaction
+        lista_categories_to_return.append(data_for_table_with_the_categories[i].category_of_the_transaction)
      return lista_categories_to_return
 
 def window_request_user_transaction_information(list_of_categories):
@@ -113,8 +113,9 @@ def window_request_user_transaction_information(list_of_categories):
                 
               else:
                 messages.need_to_select_a_transaction_type()
-                window.close
-                window_request_user_transaction_information(names)     
+                window.close()
+                window_request_user_transaction_information(names)
+                return      
             else:
               messages.error_wrong_value_window()
               window.close()
